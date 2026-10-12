@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Student Platform{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+        </nav>
+        <h1>Student Academic Management Platform</h1>
+        <p>Enterprise Student Record & Academic Management</p>
+    </div>
+    <div class="hero-status">
+        <span class="status-dot"></span>
+        Running
+    </div>
+</section>
+
+<section class="stats-grid" aria-label="Dashboard statistics">
+    {% for stat in stats %}
+        <article class="stat-card stat-{{ stat.tone }}">
+            <div class="stat-icon">
+                <i class="bi {{ stat.icon }}"></i>
+            </div>
+            <div>
+                <div class="stat-label">{{ stat.label }}</div>
+                <div class="stat-value">{{ stat.value }}</div>
+                <div class="stat-description">{{ stat.description }}</div>
+            </div>
+        </article>
+    {% endfor %}
+</section>
+
+<div class="row g-4 align-items-start">
+    <div class="col-xl-8">
+        <section class="surface-panel">
+            <div class="section-heading">
+                <div>
+                    <h2>Recent Students</h2>
+                    <p>Latest academic records available in the platform</p>
+                </div>
+                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('students') }}">
+                    <i class="bi bi-arrow-right"></i>
+                    View all
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table professional-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Program</th>
+                            <th>Year</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td><span class="id-badge">#{{ student.id }}</span></td>
+                                <td>
+                                    <div class="entity-cell">
+                                        <div class="avatar">{{ student.name[:1] }}</div>
+                                        <div>
+                                            <strong>{{ student.name }}</strong>
+                                            <span>{{ student.email }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ student.course }}</td>
+                                <td><span class="soft-badge">Year {{ student.year }}</span></td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-primary" href="{{ url_for('student_detail', student_id=student.id) }}">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">
+                                    <div class="empty-state">No student records available.</div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-xl-4">
+        <section class="surface-panel">
+            <div class="section-heading compact">
+                <div>
+                    <h2>Quick Actions</h2>
+                    <p>Open key academic modules</p>
+                </div>
+            </div>
+            <div class="quick-actions">
+                <a class="quick-action" href="{{ url_for('students') }}">
+                    <i class="bi bi-people"></i>
+                    <span>View Students</span>
+                </a>
+                <a class="quick-action" href="{{ url_for('courses') }}">
+                    <i class="bi bi-journal-bookmark"></i>
+                    <span>View Courses</span>
+                </a>
+                <a class="quick-action" href="{{ url_for('marks') }}">
+                    <i class="bi bi-clipboard-data"></i>
+                    <span>View Marks</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="surface-panel mt-4">
+            <div class="section-heading compact">
+                <div>
+                    <h2>System Overview</h2>
+                    <p>Application runtime summary</p>
+                </div>
+            </div>
+            <dl class="overview-list">
+                <div>
+                    <dt>Application</dt>
+                    <dd>Student Platform</dd>
+                </div>
+                <div>
+                    <dt>Environment</dt>
+                    <dd>Development</dd>
+                </div>
+                <div>
+                    <dt>Status</dt>
+                    <dd><span class="status-dot"></span> Operational</dd>
+                </div>
+                <div>
+                    <dt>Framework</dt>
+                    <dd>Flask</dd>
+                </div>
+                <div>
+                    <dt>Testing</dt>
+                    <dd>Pytest</dd>
+                </div>
+            </dl>
+        </section>
+    </div>
+</div>
+{% endblock %}

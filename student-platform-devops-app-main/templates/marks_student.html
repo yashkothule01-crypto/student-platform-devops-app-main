@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}{{ marks_record.student_name }} Marks | Student Platform{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('marks') }}">Marks</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ marks_record.student_name }}</li>
+            </ol>
+        </nav>
+        <h1>Student Academic Performance</h1>
+        <p>{{ marks_record.student_name }} performance record</p>
+    </div>
+    <div class="header-actions">
+        <a class="btn btn-outline-primary" href="{{ url_for('marks') }}">
+            <i class="bi bi-arrow-left"></i>
+            Back to Marks
+        </a>
+        {% if student %}
+            <a class="btn btn-primary" href="{{ url_for('student_detail', student_id=student.id) }}">
+                <i class="bi bi-person-badge"></i>
+                Student Profile
+            </a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="profile-banner">
+    <div class="profile-avatar">{{ marks_record.student_name[:1] }}</div>
+    <div>
+        <div class="eyebrow">Academic Record</div>
+        <h2>{{ marks_record.student_name }}</h2>
+        <p>Student ID #{{ marks_record.student_id }}</p>
+    </div>
+    <span class="grade-badge ms-lg-auto">{{ marks_record.grade }}</span>
+</section>
+
+<section class="surface-panel">
+    <div class="section-heading">
+        <div>
+            <h2>Course Performance</h2>
+            <p>Subject-wise marks from the current academic sample data</p>
+        </div>
+        <div class="total-score">
+            <span>Total</span>
+            <strong>{{ marks_record.total }}</strong>
+        </div>
+    </div>
+
+    {% if marks_record.subjects %}
+        <div class="subject-grid">
+            {% for subject, score in marks_record.subjects.items() %}
+                <div class="subject-score">
+                    <span>{{ subject }}</span>
+                    <strong>{{ score }}</strong>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">No academic records found for this student.</div>
+    {% endif %}
+</section>
+{% endblock %}

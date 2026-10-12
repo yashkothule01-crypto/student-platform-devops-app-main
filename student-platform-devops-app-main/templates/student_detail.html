@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}{{ student.name }} | Student Platform{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('students') }}">Students</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ student.name }}</li>
+            </ol>
+        </nav>
+        <h1>Student Profile</h1>
+        <p>{{ student.name }} academic record</p>
+    </div>
+    <div class="header-actions">
+        <a class="btn btn-outline-primary" href="{{ url_for('students') }}">
+            <i class="bi bi-arrow-left"></i>
+            Back to Students
+        </a>
+        <a class="btn btn-primary" href="{{ url_for('student_marks', student_id=student.id) }}">
+            <i class="bi bi-clipboard-data"></i>
+            View Marks
+        </a>
+    </div>
+</section>
+
+<section class="profile-banner">
+    <div class="profile-avatar">{{ student.name[:1] }}</div>
+    <div>
+        <div class="eyebrow">Student Name</div>
+        <h2>{{ student.name }}</h2>
+        <p>{{ student.email }}</p>
+    </div>
+    <span class="soft-badge ms-lg-auto">Year {{ student.year }}</span>
+</section>
+
+<section class="surface-panel">
+    <div class="section-heading">
+        <div>
+            <h2>Academic Information</h2>
+            <p>Core details available in the current sample data</p>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-item">
+            <span>Student ID</span>
+            <strong>#{{ student.id }}</strong>
+        </div>
+        <div class="info-item">
+            <span>Program</span>
+            <strong>{{ student.course }}</strong>
+        </div>
+        <div class="info-item">
+            <span>Year</span>
+            <strong>{{ student.year }}</strong>
+        </div>
+        <div class="info-item">
+            <span>Email</span>
+            <strong>{{ student.email }}</strong>
+        </div>
+    </div>
+</section>
+
+{% if marks_record %}
+    <section class="surface-panel mt-4">
+        <div class="section-heading">
+            <div>
+                <h2>Performance Snapshot</h2>
+                <p>Academic marks linked to this student</p>
+            </div>
+            <span class="grade-badge">{{ marks_record.grade }}</span>
+        </div>
+        <div class="subject-grid">
+            {% for subject, score in marks_record.subjects.items() %}
+                <div class="subject-score">
+                    <span>{{ subject }}</span>
+                    <strong>{{ score }}</strong>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}
+{% endblock %}

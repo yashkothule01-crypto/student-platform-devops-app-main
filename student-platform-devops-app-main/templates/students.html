@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Students | Student Platform{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Students</li>
+            </ol>
+        </nav>
+        <h1>Students</h1>
+        <p>Manage and view student academic records</p>
+    </div>
+    <div class="header-metric">
+        <span>Total Students</span>
+        <strong>{{ students|length }}</strong>
+    </div>
+</section>
+
+<section class="surface-panel">
+    <div class="section-heading">
+        <div>
+            <h2>Student Records</h2>
+            <p>In-memory sample records used by the Flask service layer</p>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table professional-table align-middle">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Program</th>
+                    <th>Year</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td><span class="id-badge">#{{ student.id }}</span></td>
+                        <td>
+                            <div class="entity-cell">
+                                <div class="avatar">{{ student.name[:1] }}</div>
+                                <strong>{{ student.name }}</strong>
+                            </div>
+                        </td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.course }}</td>
+                        <td><span class="soft-badge">Year {{ student.year }}</span></td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-primary" href="{{ url_for('student_detail', student_id=student.id) }}">
+                                View Profile
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">No student records available.</div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

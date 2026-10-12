@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Courses | Student Platform{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Courses</li>
+            </ol>
+        </nav>
+        <h1>Courses</h1>
+        <p>Academic courses available in the platform</p>
+    </div>
+    <div class="header-metric">
+        <span>Total Courses</span>
+        <strong>{{ courses|length }}</strong>
+    </div>
+</section>
+
+<section class="course-grid">
+    {% for course in courses %}
+        <article class="course-card">
+            <div class="course-icon">
+                <i class="bi bi-journal-bookmark-fill"></i>
+            </div>
+            <div class="course-body">
+                <span class="id-badge">Course #{{ course.id }}</span>
+                <h2>{{ course.name }}</h2>
+                <dl class="course-meta">
+                    <div>
+                        <dt>Department</dt>
+                        <dd>{{ course.department }}</dd>
+                    </div>
+                    <div>
+                        <dt>Duration</dt>
+                        <dd>{{ course.duration }}</dd>
+                    </div>
+                </dl>
+            </div>
+        </article>
+    {% else %}
+        <div class="surface-panel">
+            <div class="empty-state">No course records available.</div>
+        </div>
+    {% endfor %}
+</section>
+{% endblock %}
